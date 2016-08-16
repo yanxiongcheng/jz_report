@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.jinzhu.bean.User;
 
-
 public interface UserMapper {
     int deleteByPrimaryKey(Long id);
 
@@ -19,4 +18,5 @@ public interface UserMapper {
     int updateByPrimaryKey(User record);
 
 	List<User> selectAllUserList();
+	          
 }
