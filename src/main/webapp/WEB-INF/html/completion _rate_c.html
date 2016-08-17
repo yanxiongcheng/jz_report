@@ -1,0 +1,124 @@
+<html>
+<head>
+<meta charset="utf-8">
+<title>订单完成率（数量）</title>
+<script src="/js/jquery.min.js"></script>
+<script src="/js/echarts.min.js"></script>
+<script src="/js/common.js"></script>
+</head>
+<body>
+	<div>
+		订单创建年份<select id="year">
+					<option value="2016">2016</option>
+					<option value="2017">2017</option>
+					<option value="2018">2018</option>
+					<option value="2019">2019</option>
+					<option value="2020">2020</option>
+				</select>
+				月份
+				<select id="month">
+					<option value="01">01</option>
+					<option value="02">02</option>
+					<option value="03">03</option>
+					<option value="04">04</option>
+					<option value="05">05</option>
+					<option value="06">06</option>
+					<option value="07">07</option>
+					<option value="08">08</option>
+					<option value="09">09</option>
+					<option value="10">10</option>
+					<option value="11">11</option>
+					<option value="12">12</option>
+				</select>
+				<input type="button" value="查询" onclick="getData();">
+	</div>
+	<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+	<div id="main" style="width: 600px; height: 400px; margin: 0 auto"></div>
+	<script type="text/javascript">
+		// 基于准备好的dom，初始化echarts实例
+		var myChart = echarts.init(document.getElementById('main'));
+		
+		// 指定图表的配置项和数据
+		myChart.setOption({
+			title : {
+				text : '订单完成率（数量）',
+				x : 'center'
+			},
+			tooltip : {
+				trigger : 'item',
+				formatter : "{a} <br/>{b} : {c} ({d}%)"
+			},
+			legend : {
+				orient : 'vertical',
+				right : 'right',
+				bottom : 'bottom',
+				data : [ orderStatus.WAIT_BACKGROUND_APPROVAL, orderStatus.CREDIT_MANAGER_GRAB,
+				         orderStatus.CREDIT_MANAGER_APPROVAL, orderStatus.SUPPLEMENT_DATA,
+				         orderStatus.ORGANIZATION_APPROVAL, orderStatus.PASS,
+				         orderStatus.NO_PASS, orderStatus.CANCEL_REQUET,
+				         orderStatus.DRAFT, orderStatus.REJECT
+				       ]
+			},
+			series : [ {
+				name : '单数',
+				type : 'pie',
+				radius : '55%',
+				center : [ '50%', '60%' ],
+				data : [],
+				itemStyle : {
+					emphasis : {
+						shadowBlur : 10,
+						shadowOffsetX : 0,
+						shadowColor : 'rgba(0, 0, 0, 0.5)'
+					}
+				}
+			} ]
+		});
+		
+		function getData(){
+			var year = $("#year").val();
+			var month = $("#month").val();
+			var selectDate = year + "" + month;
+			$.ajax({
+				type : "GET",
+				url : "/report/orderCompRateC",
+				data : {
+					selectDate : selectDate
+				},
+				dataType : "json",
+				success : function(data) {
+					if (data.data && data.data.length > 0) {
+						var showData = [];
+						for (var i = 0; i < data.data.length; i++) {
+							var obj = {
+								value : data.data[i].count,
+								name : orderStatus.getStatusText(data.data[i].orderStatus)
+							};
+							showData.push(obj);
+						}
+						// 填入数据
+					    myChart.setOption({
+					        series: [{
+					            data: showData
+					        }]
+					    });
+					}else{
+						// 填入数据
+					    myChart.setOption({
+					        series: [{
+					            data: []
+					        }]
+					    });
+						alert("未查询到相关数据！");
+					}
+				}
+			});
+		}
+		
+		$(function(){
+			getData();
+			window.setInterval(getData, 30000);
+		});
+	</script>
+</body>
+</html>

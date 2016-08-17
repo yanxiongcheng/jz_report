@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jinzhu.mapper.ReportMapper">
+	<resultMap id="BaseResultMap" type="com.jinzhu.bean.Report">
+		<id column="ORDER_ID" property="orderId" jdbcType="VARCHAR" />
+		<result column="ORDER_NO" property="orderNo" jdbcType="VARCHAR" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="USER_NAME" property="userName" jdbcType="VARCHAR" />
+		<result column="MOBILE" property="mobile" jdbcType="VARCHAR" />
+		<result column="IDENT_CARD" property="identCard" jdbcType="VARCHAR" />
+		<result column="USER_SEX" property="userSex" jdbcType="INTEGER" />
+		<result column="MARRY_STS" property="marrySts" jdbcType="INTEGER" />
+		<result column="PRODUCT_NAME" property="productName" jdbcType="VARCHAR" />
+		<result column="TOTAL_AMOUNT" property="totalAmount" jdbcType="DOUBLE" />
+		<result column="TOTAL_PERIODS" property="totalPeriods"
+			jdbcType="INTEGER" />
+		<result column="PERIODS_AMOUNT" property="periodsAmount"
+			jdbcType="DOUBLE" />
+		<result column="PRACTICAL_LOAN" property="practicalLoan"
+			jdbcType="DOUBLE" />
+		<result column="BANK_PRACTICAL_PERIODS" property="bankPracticalPeriods"
+			jdbcType="INTEGER" />
+		<result column="PRACTICAL_LOAN_DATE" property="practicalLoanDate"
+			jdbcType="TIMESTAMP" />
+		<result column="REAL_MONTHLY_INTEREST_RATE" property="realMonthlyInterestRate"
+			jdbcType="DOUBLE" />
+		<result column="TOTAL_LOAN_INTEREST" property="totalLoanInterest"
+			jdbcType="DOUBLE" />
+		<result column="MANA_NAME" property="manaName" jdbcType="VARCHAR" />
+		<result column="MANA_TEL" property="manaTel" jdbcType="VARCHAR" />
+		<result column="APPROVAL_STS" property="approvalSts" jdbcType="VARCHAR" />
+		<result column="ORDER_STS" property="orderSts" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		ORDER_ID, ORDER_NO, CREATE_TIME, USER_NAME, MOBILE,
+		IDENT_CARD, USER_SEX,
+		MARRY_STS,
+		PRODUCT_NAME, TOTAL_AMOUNT,
+		TOTAL_PERIODS, PERIODS_AMOUNT, PRACTICAL_LOAN,
+		BANK_PRACTICAL_PERIODS,
+		PRACTICAL_LOAN_DATE, REAL_MONTHLY_INTEREST_RATE, TOTAL_LOAN_INTEREST,
+		MANA_NAME,
+		MANA_TEL, APPROVAL_STS, ORDER_STS
+	</sql>
+	<select id="selectTotalCount" resultType="int">
+		select count(1) from
+		EP_DAT_REPORT
+	</select>
+	<select id="selectOrderCompletionRateWithCount" parameterType="string"
+		resultType="map">
+		SELECT a.ORDER_STS orderStatus,count(*) count
+		from
+		EP_DAT_REPORT a
+		where date_format(a.CREATE_TIME,'%Y%m') = #{selectDate}
+		GROUP BY
+		a.ORDER_STS;
+	</select>
+	<select id="selectOrderCompletionRateWithAmount" parameterType="string"
+		resultType="map">
+		SELECT a.ORDER_STS orderStatus,sum(a.TOTAL_AMOUNT) amount
+		from EP_DAT_REPORT a
+		where date_format(a.CREATE_TIME,'%Y%m') = #{selectDate}
+		GROUP BY
+		a.ORDER_STS;
+	</select>
+	<select id="selectDailyloanCount" parameterType="string" resultType="map">
+		SELECT date_format(a.CREATE_TIME,'%Y/%m/%d') date,count(*) count
+		from EP_DAT_REPORT a where date_format(a.CREATE_TIME,'%Y%m') =
+		#{selectDate} GROUP BY date_format(a.CREATE_TIME,'%Y/%m/%d')
+	</select>
+	<insert id="insert">
+		insert into EP_DAT_REPORT
+		(ORDER_ID, ORDER_NO,
+		CREATE_TIME,
+		USER_NAME, MOBILE, IDENT_CARD,
+		USER_SEX, MARRY_STS,
+		PRODUCT_NAME,
+		TOTAL_AMOUNT, TOTAL_PERIODS,
+		PERIODS_AMOUNT,
+		PRACTICAL_LOAN, BANK_PRACTICAL_PERIODS,
+		PRACTICAL_LOAN_DATE,
+		REAL_MONTHLY_INTEREST_RATE, TOTAL_LOAN_INTEREST,
+		MANA_NAME, MANA_TEL,
+		APPROVAL_STS,
+		ORDER_STS)
+		SELECT
+		a.ORDER_ID,
+		a.ORDER_NO,
+		a.CREATE_TIME,
+		c.USER_NAME,
+		c.MOBILE,
+		c.IDENT_CARD,
+		c.USER_SEX,
+		c.MARRY_STS,
+		b.PRODUCT_NAME,
+		a.TOTAL_AMOUNT,
+		a.TOTAL_PERIODS,
+		a.PERIODS_AMOUNT,
+		a.PRACTICAL_LOAN,
+		a.BANK_PRACTICAL_PERIODS,
+		a.PRACTICAL_LOAN_DATE,
+		a.REAL_MONTHLY_INTEREST_RATE,
+		a.TOTAL_LOAN_INTEREST,
+		d.MANA_NAME,
+		d.MANA_TEL,
+		a.APPROVAL_STS,
+		a.ORDER_STS
+		FROM
+		EP_DAT_ORDER a
+		LEFT JOIN
+		EP_CFG_PRODUCT b ON
+		a.PRODUCT_ID = b.PRODUCT_ID
+		LEFT JOIN
+		EP_CFG_CLIENT_MANAGE c ON
+		a.CLIENT_ID = c.ID
+		LEFT JOIN
+		EP_CFG_CREDIT_MANAGER d ON
+		a.CREDIT_MANAGER_ID =
+		d.CREDIT_MANAGER_ID
+		WHERE a.IS_VALID = 1
+	</insert>
+	<insert id="insertByIncrement">
+		insert into EP_DAT_REPORT
+		(ORDER_ID, ORDER_NO,
+		CREATE_TIME,
+		USER_NAME, MOBILE, IDENT_CARD,
+		USER_SEX, MARRY_STS,
+		PRODUCT_NAME,
+		TOTAL_AMOUNT, TOTAL_PERIODS,
+		PERIODS_AMOUNT,
+		PRACTICAL_LOAN, BANK_PRACTICAL_PERIODS,
+		PRACTICAL_LOAN_DATE,
+		REAL_MONTHLY_INTEREST_RATE, TOTAL_LOAN_INTEREST,
+		MANA_NAME, MANA_TEL,
+		APPROVAL_STS,
+		ORDER_STS)
+		SELECT
+		a.ORDER_ID,
+		a.ORDER_NO,
+		a.CREATE_TIME,
+		c.USER_NAME,
+		c.MOBILE,
+		c.IDENT_CARD,
+		c.USER_SEX,
+		c.MARRY_STS,
+		b.PRODUCT_NAME,
+		a.TOTAL_AMOUNT,
+		a.TOTAL_PERIODS,
+		a.PERIODS_AMOUNT,
+		a.PRACTICAL_LOAN,
+		a.BANK_PRACTICAL_PERIODS,
+		a.PRACTICAL_LOAN_DATE,
+		a.REAL_MONTHLY_INTEREST_RATE,
+		a.TOTAL_LOAN_INTEREST,
+		d.MANA_NAME,
+		d.MANA_TEL,
+		a.APPROVAL_STS,
+		a.ORDER_STS
+		FROM
+		EP_DAT_ORDER a
+		LEFT JOIN
+		EP_CFG_PRODUCT b ON
+		a.PRODUCT_ID = b.PRODUCT_ID
+		LEFT JOIN
+		EP_CFG_CLIENT_MANAGE c ON
+		a.CLIENT_ID = c.ID
+		LEFT JOIN
+		EP_CFG_CREDIT_MANAGER d ON
+		a.CREDIT_MANAGER_ID =
+		d.CREDIT_MANAGER_ID
+		WHERE a.IS_VALID = 1 and a.CREATE_TIME > (select max(e.CREATE_TIME)
+		from
+		EP_DAT_REPORT e)
+	</insert>
+</mapper>

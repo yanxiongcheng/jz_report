@@ -9,7 +9,7 @@
 	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd">
 
 	<!-- 要调用的工作类 -->
-	<bean id="quartzJob" class="com.jinzhu.job.MyJob"></bean>
+	<bean id="quartzJob" class="com.jinzhu.job.GetReportDataJob"></bean>
 
 	<!-- 定义调用对象和调用对象的方法 -->
 	<bean id="jobtask"
@@ -25,13 +25,13 @@
 	</bean>
 
 	<!-- 定义触发时间 -->
-	<bean id="doTime" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+	<bean id="reportJobTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
 		<property name="jobDetail">
 			<ref bean="jobtask" />
 		</property>
 		<!-- cron表达式 -->
 		<property name="cronExpression">
-			<value>0/5 * * * * ?</value>
+			<value>0/60 * * * * ?</value>
 		</property>
 	</bean>
 
@@ -40,7 +40,7 @@
 		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
 		<property name="triggers">
 			<list>
-				<ref bean="doTime" />
+				<ref bean="reportJobTrigger" />
 			</list>
 		</property>
 	</bean>
