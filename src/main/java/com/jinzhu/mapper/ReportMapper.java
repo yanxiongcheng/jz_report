@@ -16,5 +16,7 @@ public interface ReportMapper {
     List<Map<String, Object>> selectOrderCompletionRateWithAmount(String selectDate);
     
     List<Map<String, Object>> selectDailyloanCount(String selectDate);
+    
+    List<Map<String, Object>> selectDailyloanAmount(String selectDate);
 
 }

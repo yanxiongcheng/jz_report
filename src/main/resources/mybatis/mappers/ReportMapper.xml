@@ -68,6 +68,11 @@
 		from EP_DAT_REPORT a where date_format(a.CREATE_TIME,'%Y%m') =
 		#{selectDate} GROUP BY date_format(a.CREATE_TIME,'%Y/%m/%d')
 	</select>
+	<select id="selectDailyloanAmount" parameterType="string" resultType="map">
+		SELECT date_format(a.CREATE_TIME,'%Y/%m/%d') date,sum(a.TOTAL_AMOUNT) amount
+		from EP_DAT_REPORT a where date_format(a.CREATE_TIME,'%Y%m') =
+		#{selectDate} GROUP BY date_format(a.CREATE_TIME,'%Y/%m/%d')
+	</select>
 	<insert id="insert">
 		insert into EP_DAT_REPORT
 		(ORDER_ID, ORDER_NO,

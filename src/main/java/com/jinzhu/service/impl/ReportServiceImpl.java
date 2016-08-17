@@ -50,4 +50,11 @@ public class ReportServiceImpl implements ReportService {
 		return reportResult;
 	}
 
+	public ReportResult queryDailyloanAmount(String selectDate) {
+		List<Map<String, Object>> resultMap = reportMapper.selectDailyloanAmount(selectDate);
+		ReportResult reportResult = new ReportResult();
+		reportResult.setData(resultMap);
+		return reportResult;
+	}
+
 }

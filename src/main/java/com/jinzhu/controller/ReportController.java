@@ -33,4 +33,10 @@ public class ReportController {
 		return reportService.queryDailyloanCount(selectDate);
 	} 
 	
+	@RequestMapping("/dailyloanAmount")
+	@ResponseBody
+	public ReportResult queryDailyloanAmount(String selectDate){
+		return reportService.queryDailyloanAmount(selectDate);
+	} 
+	
 }

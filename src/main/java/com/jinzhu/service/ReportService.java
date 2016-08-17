@@ -42,5 +42,12 @@ public interface ReportService {
 	 * @return
 	 */
 	ReportResult queryDailyloanCount(String selectDate);
+	
+	/**
+	 * 根据年月查询每日申贷金额
+	 * @param selectDate
+	 * @return
+	 */
+	ReportResult queryDailyloanAmount(String selectDate);
 
 }
