@@ -43,15 +43,43 @@ public class ReportServiceImpl implements ReportService {
 		return reportResult;
 	}
 
-	public ReportResult queryDailyloanCount(String selectDate) {
-		List<Map<String, Object>> resultMap = reportMapper.selectDailyloanCount(selectDate);
+	public ReportResult queryDailyLoanCount(String selectDate) {
+		List<Map<String, Object>> resultMap = reportMapper.selectDailyLoanCount(selectDate);
 		ReportResult reportResult = new ReportResult();
 		reportResult.setData(resultMap);
 		return reportResult;
 	}
 
-	public ReportResult queryDailyloanAmount(String selectDate) {
-		List<Map<String, Object>> resultMap = reportMapper.selectDailyloanAmount(selectDate);
+	public ReportResult queryDailyLoanAmount(String selectDate) {
+		List<Map<String, Object>> resultMap = reportMapper.selectDailyLoanAmount(selectDate);
+		ReportResult reportResult = new ReportResult();
+		reportResult.setData(resultMap);
+		return reportResult;
+	}
+
+	public ReportResult queryRealLoanCount(String selectDate) {
+		List<Map<String, Object>> resultMap = reportMapper.selectRealLoanCount(selectDate);
+		ReportResult reportResult = new ReportResult();
+		reportResult.setData(resultMap);
+		return reportResult;
+	}
+
+	public ReportResult queryRealLoanAmount(String selectDate) {
+		List<Map<String, Object>> resultMap = reportMapper.selectRealLoanAmount(selectDate);
+		ReportResult reportResult = new ReportResult();
+		reportResult.setData(resultMap);
+		return reportResult;
+	}
+
+	public ReportResult queryProductSalesWithCount(String selectDate) {
+		List<Map<String, Object>> resultMap = reportMapper.selectProductSalesWithCount(selectDate);
+		ReportResult reportResult = new ReportResult();
+		reportResult.setData(resultMap);
+		return reportResult;
+	}
+
+	public ReportResult queryProductSalesWithAmount(String selectDate) {
+		List<Map<String, Object>> resultMap = reportMapper.selectProductSalesWithAmount(selectDate);
 		ReportResult reportResult = new ReportResult();
 		reportResult.setData(resultMap);
 		return reportResult;

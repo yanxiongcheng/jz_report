@@ -1,7 +1,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>当月申贷笔数</title>
+<title>当月实际放贷笔数</title>
 <script src="/js/jquery.min.js"></script>
 <script src="/js/echarts.min.js"></script>
 <script src="/js/common.js"></script>
@@ -41,7 +41,7 @@
 		// 指定图表的配置项和数据
 		myChart.setOption({
 			title : {
-				text : '当月申贷笔数',
+				text : '当月实际放贷笔数',
 				x : 'center'
 			},
 		    color: ['#3398DB'],
@@ -76,7 +76,7 @@
 		    ],
 		    series : [
 		        {
-		            name:'申请笔数',
+		            name:'放款笔数',
 		            type:'bar',
 		            barWidth: '60%',
 		            data:[]
@@ -89,7 +89,7 @@
 			var selectDate = year + "" + month;
 			$.ajax({
 				type : "GET",
-				url : "/report/dailyLoanCount",
+				url : "/report/realLoanCount",
 				data : {
 					selectDate : selectDate
 				},

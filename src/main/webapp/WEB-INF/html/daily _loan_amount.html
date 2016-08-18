@@ -1,7 +1,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>每日申贷金额</title>
+<title>当月申贷金额</title>
 <script src="/js/jquery.min.js"></script>
 <script src="/js/echarts.min.js"></script>
 <script src="/js/common.js"></script>
@@ -41,7 +41,7 @@
 		// 指定图表的配置项和数据
 		myChart.setOption({
 			title : {
-				text : '每日申贷金额',
+				text : '当月申贷金额',
 				x : 'center'
 			},
 		    color: ['#3398DB'],
@@ -89,7 +89,7 @@
 			var selectDate = year + "" + month;
 			$.ajax({
 				type : "GET",
-				url : "/report/dailyloanAmount",
+				url : "/report/dailyLoanAmount",
 				data : {
 					selectDate : selectDate
 				},

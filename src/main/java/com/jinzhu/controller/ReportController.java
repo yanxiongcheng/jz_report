@@ -27,16 +27,39 @@ public class ReportController {
 		return reportService.queryOrderCompletionRateWithAmount(selectDate);
 	} 
 	
-	@RequestMapping("/dailyloanCount")
+	@RequestMapping("/dailyLoanCount")
 	@ResponseBody
-	public ReportResult queryDailyloanCount(String selectDate){
-		return reportService.queryDailyloanCount(selectDate);
+	public ReportResult queryDailyLoanCount(String selectDate){
+		return reportService.queryDailyLoanCount(selectDate);
 	} 
 	
-	@RequestMapping("/dailyloanAmount")
+	@RequestMapping("/dailyLoanAmount")
 	@ResponseBody
-	public ReportResult queryDailyloanAmount(String selectDate){
-		return reportService.queryDailyloanAmount(selectDate);
+	public ReportResult queryDailyLoanAmount(String selectDate){
+		return reportService.queryDailyLoanAmount(selectDate);
+	} 
+	
+	@RequestMapping("/realLoanCount")
+	@ResponseBody
+	public ReportResult queryRealLoanCount(String selectDate){
+		return reportService.queryRealLoanCount(selectDate);
+	} 
+	
+	@RequestMapping("/realLoanAmount")
+	@ResponseBody
+	public ReportResult queryRealLoanAmount(String selectDate){
+		return reportService.queryRealLoanAmount(selectDate);
+	} 
+	@RequestMapping("/productSalesC")
+	@ResponseBody
+	public ReportResult queryProductSalesWithCount(String selectDate){
+		return reportService.queryProductSalesWithCount(selectDate);
+	} 
+	
+	@RequestMapping("/productSalesA")
+	@ResponseBody
+	public ReportResult queryProductSalesWithAmount(String selectDate){
+		return reportService.queryProductSalesWithAmount(selectDate);
 	} 
 	
 }

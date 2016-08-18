@@ -41,13 +41,40 @@ public interface ReportService {
 	 * @param selectDate
 	 * @return
 	 */
-	ReportResult queryDailyloanCount(String selectDate);
+	ReportResult queryDailyLoanCount(String selectDate);
 	
 	/**
 	 * 根据年月查询每日申贷金额
 	 * @param selectDate
 	 * @return
 	 */
-	ReportResult queryDailyloanAmount(String selectDate);
+	
+	ReportResult queryDailyLoanAmount(String selectDate);
+	/**
+	 * 根据年月查询每日实际放款笔数
+	 * @param selectDate
+	 * @return
+	 */
+	ReportResult queryRealLoanCount(String selectDate);
+	
+	/**
+	 * 根据年月查询每日实际放款金额
+	 * @param selectDate
+	 * @return
+	 */
+	ReportResult queryRealLoanAmount(String selectDate);
+	/**
+	 * 根据年月查询各类产品销售情况（笔数）
+	 * @param selectDate
+	 * @return
+	 */
+	ReportResult queryProductSalesWithCount(String selectDate);
+	
+	/**
+	 * 根据年月查询各类产品销售情况（金额）
+	 * @param selectDate
+	 * @return
+	 */
+	ReportResult queryProductSalesWithAmount(String selectDate);
 
 }

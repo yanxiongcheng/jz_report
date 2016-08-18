@@ -1,7 +1,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>当月申贷笔数</title>
+<title>各类产品销售情况（笔数）</title>
 <script src="/js/jquery.min.js"></script>
 <script src="/js/echarts.min.js"></script>
 <script src="/js/common.js"></script>
@@ -41,7 +41,7 @@
 		// 指定图表的配置项和数据
 		myChart.setOption({
 			title : {
-				text : '当月申贷笔数',
+				text : '各类产品销售情况（笔数）',
 				x : 'center'
 			},
 		    color: ['#3398DB'],
@@ -76,7 +76,7 @@
 		    ],
 		    series : [
 		        {
-		            name:'申请笔数',
+		            name:'总笔数',
 		            type:'bar',
 		            barWidth: '60%',
 		            data:[]
@@ -89,23 +89,23 @@
 			var selectDate = year + "" + month;
 			$.ajax({
 				type : "GET",
-				url : "/report/dailyLoanCount",
+				url : "/report/productSalesC",
 				data : {
 					selectDate : selectDate
 				},
 				dataType : "json",
 				success : function(data) {
 					if (data.data && data.data.length > 0) {
-						var date = [];
+						var productNames = [];
 						var count = [];
 						for (var i = 0; i < data.data.length; i++) {
-							date.push(data.data[i].date);
+							productNames.push(data.data[i].productName);
 							count.push(data.data[i].count);
 						}
 						// 填入数据
 					    myChart.setOption({
 					    	xAxis : [{
-					    		data : date
+					    		data : productNames
 					    	}],
 					        series: [{
 					            data: count
